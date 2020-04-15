@@ -85,15 +85,15 @@ int main(int argc, char *argv[])
 		// Call to plot function
 		ret = metacallv("plot", args);
 
-		if (ret == NULL)
-		{
-			return cleanup(4);
-		}
-
 		// Clean up arguments
 		for (size_t it = 0; it < sizeof(args) / sizeof(args[0]); ++it)
 		{
 			metacall_value_destroy(args[it]);
+		}
+
+		if (ret == NULL)
+		{
+			return cleanup(4);
 		}
 
 		// Clean up return value
