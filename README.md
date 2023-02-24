@@ -42,5 +42,7 @@ Building and running with Docker:
 
 ```bash
 docker build -t metacall/embedding-matplotlib-example .
-docker run --rm -it metacall/embedding-matplotlib-example ./a.out
+docker run --rm -v $(pwd)/output:/output -it metacall/embedding-matplotlib-example ./a.out
 ```
+
+For seeing the plot, open the `output` folder.

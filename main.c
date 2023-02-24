@@ -71,7 +71,7 @@ int main(int argc, char *argv[])
 			metacall_value_create_array(array_y, sizeof(array_y) / sizeof(array_y[0])), // y
 			metacall_value_create_str("X"), // xlabel
 			metacall_value_create_str("Y"), // ylabel
-			metacall_value_create_str("plot.png") // output
+			metacall_value_create_str("output/plot.png") // output
 		};
 
 		void * ret = NULL;

@@ -17,7 +17,7 @@
 #	limitations under the License.
 #
 
-FROM python:3.7.7-buster
+FROM debian:bullseye-slim
 
 # Image descriptor
 LABEL copyright.name="Vicente Eduardo Ferrer Garcia" \
@@ -29,13 +29,14 @@ LABEL copyright.name="Vicente Eduardo Ferrer Garcia" \
 
 # Install dependencies
 RUN apt-get update \
-	&& apt-get install -y --no-install-recommends build-essential cmake git
+	&& apt-get install -y --no-install-recommends build-essential cmake ca-certificates git python3-dev python3-pip
 
 # Clone and build MetaCall
-RUN git clone https://github.com/metacall/core.git \
+RUN git clone --depth=1 --branch v0.7.3 https://github.com/metacall/core.git \
 	&& mkdir core/build && cd core/build \
 	&& cmake -DOPTION_BUILD_LOADERS_PY=On -DOPTION_BUILD_DETOURS=Off -DOPTION_BUILD_SCRIPTS=Off -DOPTION_BUILD_TESTS=Off .. \
-	&& cmake --build . --target install
+	&& cmake --build . --target install \
+	&& ldconfig
 
 # Install matplotlib
 RUN pip3 install --user matplotlib
@@ -45,6 +46,7 @@ COPY main.c plot.py ./
 
 # Build and run the executable
 RUN export LOADER_SCRIPT_PATH="`pwd`" \
+	&& mkdir output \
 	&& gcc \
 		-std=c11 \
 		main.c \
